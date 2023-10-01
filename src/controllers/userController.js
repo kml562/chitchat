@@ -3,6 +3,7 @@ import { emailRegex, indianNumberRegex, nameRegex, passwordRegex } from "../util
 import User from '../models/userModel.js'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
+import { isValidObjectId } from "mongoose";
 export const signUp= async(req,res)=>{
     try {
         const reqdata= req.body;
@@ -91,4 +92,32 @@ if (!finduser) {
     } catch (error) {
         res.status(500).json({error:error.message});
     }
-}
+};
+
+export const getProfileDetails = async (req, res) => {
+    try {
+      const { userId } = req.params;
+      //console.log(userId);
+      if (!isValidObjectId(userId)) {
+        return res.status(400).json({ status: false, error: "Invalid user Id" });
+      }
+  
+      if (req.decodedToken.id !== userId) {
+        return res
+          .status(400)
+          .json({ status: false, error: "you are not allowed to access this" });
+      }
+      const data = await User.findById(userId);
+      if (!data) {
+        return res.status(404).json({ status: false, error: "not a valid user" });
+      }
+  
+      return res
+        .status(200)
+        .json({ status: true, message: "User profile details", data });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ status: false, error: error.message });
+    }
+  };
+  
