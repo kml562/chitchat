@@ -121,3 +121,17 @@ export const getProfileDetails = async (req, res) => {
     }
   };
   
+
+  export const getUsers = async (req, res) => {
+    try {
+ 
+      const data = await User.find();
+      return res
+        .status(200)
+        .json({ status: true, message: "User profile details", data });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ status: false, error: error.message });
+    }
+  };
+  

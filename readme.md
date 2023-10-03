@@ -64,3 +64,4 @@ Here's an example of how you can define the schema for the core entity/entities 
 
 cd CHITCHAT
 npm install
+kml

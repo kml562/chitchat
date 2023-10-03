@@ -7,5 +7,6 @@ router.get('/get', function(req,res){
 })
 router.post('/signup',signUp )
 router.post('/login',login);
-router.get('/getuser', getProfileDetails)
+router.get('/finduser/:userid', getProfileDetails);
+router.get('/getusers',)
 export default router;
